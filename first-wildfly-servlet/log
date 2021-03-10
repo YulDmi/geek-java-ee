@@ -1,0 +1,18 @@
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+Last login: Wed Mar 10 21:20:26 2021 from 5.18.185.6
+root@194-58-90-30:~# tail -f /opt/wildfly/standalone/log/server.log
+2021-03-10 22:20:07,487 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-1) WFLYSRV0027: Starting deployment of "first-web-app.war" (runtime-name: "first-web-app.war")
+2021-03-10 22:20:09,991 INFO  [org.infinispan.CONTAINER] (ServerService Thread Pool -- 76) ISPN000128: Infinispan version: Infinispan 'Corona Extra' 11.0.8.Final
+2021-03-10 22:20:10,106 INFO  [org.infinispan.CONFIG] (MSC service thread 1-2) ISPN000152: Passivation configured without an eviction policy being selected. Only manually evicted entities will be passivated.
+2021-03-10 22:20:10,111 INFO  [org.infinispan.CONFIG] (MSC service thread 1-2) ISPN000152: Passivation configured without an eviction policy being selected. Only manually evicted entities will be passivated.
+2021-03-10 22:20:10,305 INFO  [org.infinispan.PERSISTENCE] (ServerService Thread Pool -- 76) ISPN000556: Starting user marshaller 'org.wildfly.clustering.infinispan.spi.marshalling.InfinispanProtoStreamMarshaller'
+2021-03-10 22:20:10,681 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 76) WFLYCLINF0002: Started http-remoting-connector cache from ejb container
+2021-03-10 22:20:10,872 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 76) WFLYUT0021: Registered web context: '/first-web-app' for server 'default-server'
+2021-03-10 22:20:10,985 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "first-web-app.war" (runtime-name : "first-web-app.war")
+2021-03-10 22:23:10,228 INFO  [com.geekbrains.MyFirstServlet] (default task-1) from init
+2021-03-10 22:23:10,230 INFO  [com.geekbrains.MyFirstServlet] (default task-1) new request
+2021-03-10 22:30:30,739 INFO  [com.geekbrains.MyFirstServlet] (default task-1) new request
+

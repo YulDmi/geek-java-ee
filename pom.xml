@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>first-web-app</module>
+        <module>first-wildfly-servlet</module>
     </modules>
     <groupId>ru.geekbrains</groupId>
     <artifactId>geek-java-ee</artifactId>
