@@ -35,18 +35,13 @@
 
 
     <build>
-        <finalName>first-web-app</finalName>
+        <finalName>first-wildfly-servlet</finalName>
 
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>2.0.2.Final</version>
-                <configuration>
-                    <hostname>194.58.90.30</hostname>
-                    <username>admin</username>
-                    <password>123456</password>
-                </configuration>
             </plugin>
         </plugins>
     </build>

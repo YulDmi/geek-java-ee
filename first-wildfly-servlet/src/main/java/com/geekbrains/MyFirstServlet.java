@@ -25,7 +25,7 @@ public class MyFirstServlet implements Servlet {
     @Override
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         logger.info("new request");
-        servletResponse.getWriter().println("Hello from my FirstServlet!");
+        servletResponse.getWriter().println("<h1>Hello from my FirstServlet!<h1>");
    
     }
 
