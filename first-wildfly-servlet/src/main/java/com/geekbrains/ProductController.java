@@ -5,6 +5,7 @@ import com.geekbrains.persist.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -74,7 +75,11 @@ public class ProductController extends HttpServlet {
                     req.getParameter("description"));
             productRepository.save(product);
             resp.sendRedirect(getServletContext().getContextPath() + "/product");
-        } else {
+        }else if (req.getPathInfo().startsWith("/delete")) {
+
+        }
+
+        else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }

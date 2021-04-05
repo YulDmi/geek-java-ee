@@ -1,1 +1,12 @@
+com\geekbrains\listener\StartupListener.class
 com\geekbrains\MyFirstServlet.class
+com\geekbrains\CustomerController.class
+com\geekbrains\persist\CustomersRepository.class
+com\geekbrains\persist\Product.class
+com\geekbrains\filter\EncodingFilter.class
+com\geekbrains\persist\Category.class
+com\geekbrains\CategoryController.class
+com\geekbrains\ProductController.class
+com\geekbrains\persist\CategoryRepository.class
+com\geekbrains\persist\Customer.class
+com\geekbrains\persist\ProductRepository.class
