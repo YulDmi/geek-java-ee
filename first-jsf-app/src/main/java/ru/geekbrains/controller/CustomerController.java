@@ -6,6 +6,7 @@ import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,6 +19,11 @@ public class CustomerController implements Serializable {
     @Inject
     private CustomersRepository customersRepository;
     private Customer customer;
+    private List<Customer> customerList;
+
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        this.customerList = customersRepository.findAll();
+    }
 
     public Customer getCustomer() {
         return customer;
@@ -28,7 +34,7 @@ public class CustomerController implements Serializable {
     }
 
     public List<Customer> findAll(){
-      return   customersRepository.findAll();
+      return   customerList;
     }
 
     public String editCustomer(Customer customer) {

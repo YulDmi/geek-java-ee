@@ -6,6 +6,7 @@ import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,6 +19,11 @@ public class CategoryController implements Serializable {
     @Inject
     private CategoryRepository categoryRepository;
     private Category category;
+    private List<Category> categoryList;
+
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        this.categoryList = categoryRepository.findAll();
+    }
 
     public Category getCategory() {
         return category;
@@ -27,8 +33,8 @@ public class CategoryController implements Serializable {
         this.category = category;
     }
 
-    public List<Category> findAll(){
-      return   categoryRepository.findAll();
+    public List<Category> findAll() {
+        return categoryList;
     }
 
     public String editCategory(Category category) {

@@ -7,7 +7,8 @@
 <modules>
 <module>first-wildfly-servlet</module>
 <module>first-jsf-app</module>
-        <module>first-jsf-app</module>
+        <module>first-jsf-newapp</module>
+        <module>first-app</module>
 </modules>
 <groupId>ru.geekbrains</groupId>
 <artifactId>geek-java-ee</artifactId>
