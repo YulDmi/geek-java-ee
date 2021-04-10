@@ -1,6 +1,5 @@
 package ru.geekbrains.persist;
 
-import javax.inject.Named;
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +7,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "deleteCustomerById", query = "delete from Customer c where c.id = :id"),
         @NamedQuery(name = "findAllCustomer", query = "from Customer c"),
-        @NamedQuery(name = "count", query = "select count(c) from Customer c")
+        @NamedQuery(name = "countCustomer", query = "select count(c) from Customer c")
 })
 public class Customer {
 

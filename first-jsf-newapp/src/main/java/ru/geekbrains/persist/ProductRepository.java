@@ -1,49 +1,74 @@
 package ru.geekbrains.persist;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.SystemException;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
 public class ProductRepository {
 
-    private final Map<Long, Product> products = new ConcurrentHashMap<>();
-    private final AtomicLong identity = new AtomicLong(0);
+    @PersistenceContext(unitName = "ds")
+    private EntityManager em;
+
+    @Resource
+    private UserTransaction ut;
 
     @PostConstruct
     public void init() {
-
-        save(new Product(null, "product1", new BigDecimal(1000), "description1"));
-        save(new Product(null, "product2", new BigDecimal(1010), "description1"));
-        save(new Product(null, "product3", new BigDecimal(1500), "description1"));
-        save(new Product(null, "product4", new BigDecimal(1570), "description1"));
+        if (count() == 0) {
+            try {
+                ut.begin();
+                save(new Product(null, "product1", new BigDecimal(1000), "description1"));
+                save(new Product(null, "product2", new BigDecimal(1010), "description1"));
+                save(new Product(null, "product3", new BigDecimal(1500), "description1"));
+                save(new Product(null, "product4", new BigDecimal(1570), "description1"));
+                save(new Product(null, "product5", new BigDecimal(15), "description5"));
+                ut.commit();
+            } catch (Exception ex) {
+                try {
+                    ut.rollback();
+                } catch (SystemException e) {
+                    throw new RuntimeException(e);
+                }
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
-
+    @Transactional
     public void save(Product product) {
         if (product.getId() == null) {
-            product.setId(identity.incrementAndGet());
+            em.persist(product);
         }
-        products.put(product.getId(), product);
+        em.merge(product);
     }
 
+
+    @Transactional
     public void delete(Long id) {
-        products.remove(id);
+        em.createNamedQuery("deleteProductById").setParameter("id", id).executeUpdate();
     }
+
 
     public Product findById(Long id) {
-        return products.get(id);
+        return em.find(Product.class, id);
     }
 
     public List<Product> findAll() {
-        return new ArrayList<>(products.values());
+        return em.createNamedQuery("findAllProduct", Product.class).getResultList();
 
+    }
+
+    public long count() {
+        return em.createNamedQuery("countProduct", Long.class).getSingleResult();
     }
 }
