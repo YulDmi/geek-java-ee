@@ -1,42 +1,67 @@
 package ru.geekbrains.persist;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Collections;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.SystemException;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
 public class CategoryRepository {
-    private final Map<Long, Category> categories = new ConcurrentHashMap<>();
-    private final AtomicLong identity = new AtomicLong(0);
+    @PersistenceContext(unitName = "ds")
+    private EntityManager em;
 
+    @Resource
+    private UserTransaction ut;
+
+    @PostConstruct
+    public void init() {
+        if (count() == 0) {
+            try {
+                ut.begin();
+                save(new Category(null, "goods"));
+                save(new Category(null, "food"));
+                ut.commit();
+            } catch (Exception ex) {
+                try {
+                    ut.rollback();
+                } catch (SystemException e) {
+                    throw new RuntimeException(e);
+                }
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    @Transactional
     public void save(Category category) {
         if (category.getId() == null) {
-            category.setId(identity.incrementAndGet());
+            em.persist(category);
         }
-        categories.put(category.getId(), category);
+        em.merge(category);
     }
-    @PostConstruct
-    public void init(){
-        save(new Category(null, "goods"));
-        save(new Category(null, "food"));
-    }
+
+    @Transactional
     public void delete(Long id) {
-        categories.remove(id);
+        em.createNamedQuery("deleteCategoryById").setParameter("id", id).executeUpdate();
     }
 
     public Category findById(Long id) {
-        return categories.get(id);
+        return em.find(Category.class, id);
     }
 
     public List<Category> findAll() {
-        return Collections.unmodifiableList(new ArrayList<>(categories.values()));
+        return em.createNamedQuery("findAllCategory", Category.class).getResultList();
 
+    }
+
+    public long count() {
+        return em.createNamedQuery("countCategory", Long.class).getSingleResult();
     }
 }

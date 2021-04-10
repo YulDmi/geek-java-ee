@@ -1,46 +1,71 @@
 package ru.geekbrains.persist;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Collections;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.SystemException;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
 public class CustomerRepository {
-    private final Map<Long, Customer> customers = new ConcurrentHashMap<>();
-    private final AtomicLong identity = new AtomicLong(0);
+    @PersistenceContext(unitName = "ds")
+    private EntityManager em;
 
-    public void save(Customer customer) {
-        if (customer.getId() == null) {
-            customer.setId(identity.incrementAndGet());
-        }
-        customers.put(customer.getId(), customer);
-    }
+    @Resource
+    private UserTransaction ut;
 
     @PostConstruct
     public void init() {
-        save(new Customer(null, "Bob", "123456789"));
-        save(new Customer(null, "Ivan", "223456789"));
-        save(new Customer(null, "Tom", "55555555"));
-
+        if (count() == 0) {
+            try {
+                ut.begin();
+                save(new Customer(null, "Bob", "123456789"));
+                save(new Customer(null, "Ivan", "223456789"));
+                save(new Customer(null, "Tom", "55555555"));
+                ut.commit();
+            } catch (Exception ex) {
+                try {
+                    ut.rollback();
+                } catch (SystemException e) {
+                    throw new RuntimeException(e);
+                }
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
+
+    @Transactional
+    public void save(Customer customer) {
+        if (customer.getId() == null) {
+            em.persist(customer);
+        }
+        em.merge(customer);
+    }
+
+
+    @Transactional
     public void delete(Long id) {
-        customers.remove(id);
+        em.createNamedQuery("deleteCustomerById").setParameter("id", id).executeUpdate();
     }
 
     public Customer findById(Long id) {
-        return customers.get(id);
+        return em.find(Customer.class, id);
     }
 
     public List<Customer> findAll() {
-        return Collections.unmodifiableList(new ArrayList<>(customers.values()));
+        return em.createNamedQuery("findAllCustomer", Customer.class).getResultList();
 
     }
+
+    public long count() {
+        return em.createNamedQuery("countCustomer", Long.class).getSingleResult();
+    }
+
 }

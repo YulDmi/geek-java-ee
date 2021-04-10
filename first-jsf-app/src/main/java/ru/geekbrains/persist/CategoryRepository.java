@@ -7,14 +7,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.SystemException;
+import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 @Named
 @ApplicationScoped
 public class CategoryRepository {
@@ -37,20 +32,20 @@ public class CategoryRepository {
                 try {
                     ut.rollback();
                 } catch (SystemException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
                 throw new RuntimeException(ex);
             }
         }
     }
-
+    @Transactional
     public void save(Category category) {
         if (category.getId() == null) {
             em.persist(category);
         }
         em.merge(category);
     }
-
+    @Transactional
     public void delete(Long id) {
         em.createNamedQuery("deleteCategoryId").setParameter("id", id).executeUpdate();
     }
@@ -65,6 +60,6 @@ public class CategoryRepository {
     }
 
     public long count() {
-        return em.createNamedQuery("count", Long.class).getSingleResult();
+        return em.createNamedQuery("countCategory", Long.class).getSingleResult();
     }
 }
