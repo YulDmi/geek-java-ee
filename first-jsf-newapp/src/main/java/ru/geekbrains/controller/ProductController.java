@@ -1,5 +1,7 @@
 package ru.geekbrains.controller;
 
+import ru.geekbrains.persist.Category;
+import ru.geekbrains.persist.CategoryRepository;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
@@ -16,12 +18,25 @@ public class ProductController implements Serializable {
 
     @Inject
     private ProductRepository productRepository;
+
+    @Inject
+    private CategoryRepository categoryRepository;
+
     private Product product;
     private List<Product> productList;
+    private List<Category> categoryList;
 
+    public List<Category> getCategories() {
+        return categoryList;
+    }
 
-    public void preloadData(ComponentSystemEvent componentSystemEvent){
+    public void setCategories(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
         this.productList = productRepository.findAll();
+        this.categoryList = categoryRepository.findAll();
     }
 
 
@@ -33,8 +48,8 @@ public class ProductController implements Serializable {
         this.product = product;
     }
 
-    public List<Product> findAll(){
-        return  productList;
+    public List<Product> findAll() {
+        return productList;
     }
 
     public String editProduct(Product product) {

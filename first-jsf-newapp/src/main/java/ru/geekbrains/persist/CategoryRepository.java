@@ -14,6 +14,7 @@ import java.util.List;
 @Named
 @ApplicationScoped
 public class CategoryRepository {
+
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 

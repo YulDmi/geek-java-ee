@@ -24,6 +24,8 @@ public class Product {
     @Column
     private String description;
 
+    @ManyToOne
+    private Category category;
 
     public Product() {
         }
@@ -35,9 +37,15 @@ public class Product {
             this.description = description;
         }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-        public Long getId() {
+    public Long getId() {
             return id;
         }
 

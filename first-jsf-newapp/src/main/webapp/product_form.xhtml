@@ -1,7 +1,7 @@
 <html lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
->
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
     <!-- Required meta tags -->
@@ -51,11 +51,22 @@
                                      placeholder="Enter description"/>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
                         <h:outputLabel value="Price"/>
                         <h:inputText styleClass="form-control" p:type="number" id="price"
                                      value="#{productController.product.price}"
                                      placeholder="Enter price"/>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="Category"/>
+                        <h:selectOneListbox size="1" styleClass="form-control" id="productCategory"
+                                         value="#{productController.product.categoryId}"
+                                         placeholder="Enter category">
+                            <f:selectItems value="#{productController.categories}"
+                                            var="cat"
+                                            itemValue="#{cat.id}"
+                                            itemLabel="#{cat.name}"
+                                            itemLabelEscape="true"/>
+                        </h:selectOneListbox>
                     </div>
                     <h:commandButton value="Submit" styleClass="btn btn-primary"
                                      action="#{productController.saveProduct()}"/>
