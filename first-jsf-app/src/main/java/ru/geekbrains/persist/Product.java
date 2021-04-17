@@ -24,14 +24,18 @@ public class Product {
     @Column
     private String description;
 
+    @ManyToOne
+    private Category category;
+
     public Product() {
     }
 
-    public Product(Long id, String name, BigDecimal price, String description) {
+    public Product(Long id, String name, BigDecimal price, String description, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
     }
 
 
@@ -66,5 +70,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

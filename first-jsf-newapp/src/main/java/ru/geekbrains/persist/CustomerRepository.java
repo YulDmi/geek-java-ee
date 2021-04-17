@@ -40,7 +40,7 @@ public class CustomerRepository {
         }
     }
 
-
+//@TransactionAttribute
     @Transactional
     public void save(Customer customer) {
         if (customer.getId() == null) {
@@ -49,7 +49,7 @@ public class CustomerRepository {
         em.merge(customer);
     }
 
-
+//@TransactionAttribute
     @Transactional
     public void delete(Long id) {
         em.createNamedQuery("deleteCustomerById").setParameter("id", id).executeUpdate();

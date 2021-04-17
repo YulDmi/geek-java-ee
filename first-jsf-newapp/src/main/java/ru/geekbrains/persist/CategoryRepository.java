@@ -2,12 +2,12 @@ package ru.geekbrains.persist;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.SystemException;
-import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.util.List;
 
@@ -26,8 +26,8 @@ public class CategoryRepository {
         if (count() == 0) {
             try {
                 ut.begin();
-                save(new Category(null, "goods"));
-                save(new Category(null, "food"));
+                save(new Category(null, "category1"));
+                save(new Category(null, "category2"));
                 ut.commit();
             } catch (Exception ex) {
                 try {
@@ -40,7 +40,7 @@ public class CategoryRepository {
         }
     }
 
-    @Transactional
+    @TransactionAttribute
     public void save(Category category) {
         if (category.getId() == null) {
             em.persist(category);
@@ -48,13 +48,17 @@ public class CategoryRepository {
         em.merge(category);
     }
 
-    @Transactional
+    @TransactionAttribute
     public void delete(Long id) {
         em.createNamedQuery("deleteCategoryById").setParameter("id", id).executeUpdate();
     }
 
     public Category findById(Long id) {
         return em.find(Category.class, id);
+    }
+
+    public Category getReference(Long id) {
+        return em.getReference(Category.class, id);
     }
 
     public List<Category> findAll() {
