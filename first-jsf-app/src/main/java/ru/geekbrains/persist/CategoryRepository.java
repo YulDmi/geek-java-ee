@@ -1,51 +1,47 @@
 package ru.geekbrains.persist;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.SystemException;
-import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.List;
-@Named
-@ApplicationScoped
+
+
+@Stateless
 public class CategoryRepository {
 
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 
-    @Resource
-    private UserTransaction ut;
-
-    @PostConstruct
-    public void init() {
-        if (count() == 0) {
-            try {
-                ut.begin();
-                save(new Category(null, "goods"));
-                save(new Category(null, "food"));
-                ut.commit();
-            } catch (Exception ex) {
-                try {
-                    ut.rollback();
-                } catch (SystemException e) {
-                    throw new RuntimeException(e);
-                }
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-    @Transactional
+//    @Resource
+//    private UserTransaction ut;
+//
+//    @PostConstruct
+//    public void init() {
+//        if (count() == 0) {
+//            try {
+//                ut.begin();
+//                save(new Category(null, "goods"));
+//                save(new Category(null, "food"));
+//                ut.commit();
+//            } catch (Exception ex) {
+//                try {
+//                    ut.rollback();
+//                } catch (SystemException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                throw new RuntimeException(ex);
+//            }
+//        }
+//    }
+    @TransactionAttribute
     public void save(Category category) {
         if (category.getId() == null) {
             em.persist(category);
         }
         em.merge(category);
     }
-    @Transactional
+    @TransactionAttribute
     public void delete(Long id) {
         em.createNamedQuery("deleteCategoryId").setParameter("id", id).executeUpdate();
     }
@@ -61,5 +57,9 @@ public class CategoryRepository {
 
     public long count() {
         return em.createNamedQuery("countCategory", Long.class).getSingleResult();
+    }
+
+    public Category getReference(Long id) {
+        return em.getReference(Category.class, id);
     }
 }
