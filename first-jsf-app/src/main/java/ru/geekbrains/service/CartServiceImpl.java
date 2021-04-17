@@ -4,7 +4,8 @@ import ru.geekbrains.service.repr.ProductRepr;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,35 +14,23 @@ public class CartServiceImpl implements CartService {
     @EJB
     private ProductService productService;
 
-    private Map<ProductRepr, Integer> productMap = new ConcurrentHashMap<>();
+    private final Map<Long, ProductRepr> productMap = new ConcurrentHashMap<>();
 
 
     @Override
     public void add(ProductRepr productRepr) {
-        if (productMap.containsKey(productRepr)) {
-            productMap.put(productRepr, productMap.get(productRepr) + 1);
-        }else {
-            productMap.put(productRepr, 1);
-        }
+       productMap.put(productRepr.getId(), productRepr);
 
     }
 
     @Override
     public void remove(long id) {
-        ProductRepr productRepr = productService.findById(id);
-        Iterator<Map.Entry<ProductRepr, Integer>>
-                iterator = productMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<ProductRepr, Integer> entry = iterator.next();
-            if (entry.getKey().equals(productRepr)) {
-                iterator.remove();
-            }
-        }
+        productMap.remove(id);
     }
 
     @Override
-    public Map<ProductRepr, Integer> findAll() {
-           return productMap;
+    public List<ProductRepr> findAll() {
+           return new ArrayList<>(productMap.values());
         }
     }
 

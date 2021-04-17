@@ -38,11 +38,11 @@ public class ProductController implements Serializable {
         this.product = product;
     }
 
-    public List<Category> getCategoryList() {
+    public List<Category> getCategories() {
         return categoryList;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
+    public void setCategories(List<Category> categoryList) {
         this.categoryList = categoryList;
     }
 

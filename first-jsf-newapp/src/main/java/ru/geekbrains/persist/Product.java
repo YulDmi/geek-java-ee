@@ -30,11 +30,12 @@ public class Product {
     public Product() {
         }
 
-        public Product(Long id, String name, BigDecimal price, String description) {
+        public Product(Long id, String name, BigDecimal price, String description, Category category) {
             this.id = id;
             this.name = name;
             this.price = price;
             this.description = description;
+            this.category = category;
         }
 
     public Category getCategory() {
