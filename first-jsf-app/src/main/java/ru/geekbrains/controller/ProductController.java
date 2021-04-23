@@ -2,7 +2,9 @@ package ru.geekbrains.controller;
 
 import ru.geekbrains.persist.Category;
 import ru.geekbrains.persist.CategoryRepository;
+import ru.geekbrains.service.CategoryService;
 import ru.geekbrains.service.ProductService;
+import ru.geekbrains.service.repr.CategoryRepr;
 import ru.geekbrains.service.repr.ProductRepr;
 
 import javax.ejb.EJB;
@@ -19,15 +21,15 @@ public class ProductController implements Serializable {
     private ProductService productService;
 
     @EJB
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     private ProductRepr product;
     private List<ProductRepr> productList;
-    private List<Category> categoryList;
+    private List<CategoryRepr> categoryList;
 
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
         this.productList = productService.findAll();
-        this.categoryList = categoryRepository.findAll();
+        this.categoryList = categoryService.findAll();
     }
 
     public ProductRepr getProduct() {
@@ -38,11 +40,11 @@ public class ProductController implements Serializable {
         this.product = product;
     }
 
-    public List<Category> getCategories() {
+    public List<CategoryRepr> getCategories() {
         return categoryList;
     }
 
-    public void setCategories(List<Category> categoryList) {
+    public void setCategories(List<CategoryRepr> categoryList) {
         this.categoryList = categoryList;
     }
 

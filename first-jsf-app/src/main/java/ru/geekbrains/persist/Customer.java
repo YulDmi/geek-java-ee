@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "customers")
 @NamedQueries({
-        @NamedQuery(name = "deleteCustomerById", query = "delete from Customer c where c.id = :id"),
+        @NamedQuery(name = "deleteCustomerId", query = "delete from Customer c where c.id = :id"),
         @NamedQuery(name = "findAllCustomer", query = "from Customer c"),
         @NamedQuery(name = "countCustomer", query = "select count(c) from Customer c")
 })

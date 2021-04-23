@@ -1,9 +1,7 @@
 package ru.geekbrains.controller;
 
-import ru.geekbrains.persist.Category;
-import ru.geekbrains.persist.CategoryRepository;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.service.CategoryService;
+import ru.geekbrains.service.repr.CategoryRepr;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
@@ -17,42 +15,43 @@ import java.util.List;
 public class CategoryController implements Serializable {
 
     @Inject
-    private CategoryRepository categoryRepository;
-    private Category category;
-    private List<Category> categoryList;
+    private CategoryService categoryService;
+
+    private CategoryRepr category;
+    private List<CategoryRepr> categoryList;
 
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
-        this.categoryList = categoryRepository.findAll();
+        this.categoryList = categoryService.findAll();
     }
 
-    public Category getCategory() {
+    public CategoryRepr getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryRepr category) {
         this.category = category;
     }
 
-    public List<Category> findAll() {
+    public List<CategoryRepr> findAll() {
         return categoryList;
     }
 
-    public String editCategory(Category category) {
+    public String editCategory(CategoryRepr category) {
         this.category = category;
         return "/category_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteCategory(Category category) {
-        categoryRepository.delete(category.getId());
+    public void deleteCategory(CategoryRepr category) {
+        categoryService.delete(category.getId());
     }
 
     public String saveCategory() {
-        categoryRepository.save(category);
+        categoryService.save(category);
         return "/category.xhtml?faces-redirect=true";
     }
 
     public String addCategory() {
-        this.category = new Category();
+        this.category = new CategoryRepr();
         return "/category_form.xhtml?faces-redirect=true";
     }
 }
