@@ -16,5 +16,7 @@ public interface ProductService {
 
     List<ProductRepr> findAll();
 
+  //  List<ProductRepr> findByName(String name);
+
     long count();
 }

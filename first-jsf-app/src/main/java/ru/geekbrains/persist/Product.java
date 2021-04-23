@@ -6,8 +6,10 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "products")
 @NamedQueries({
-        @NamedQuery(name = "deleteProductById", query = "delete from Product p where p.id = :id"),
+        @NamedQuery(name = "deleteProductId", query = "delete from Product p where p.id = :id"),
         @NamedQuery(name = "findAllProduct", query = "from Product p"),
+        @NamedQuery(name = "findProductByName", query = "from Product p where p.name LIKE :name"),
+        @NamedQuery(name = "findProductByCategoryId", query = "from Product p where p.category.id = :id"),
         @NamedQuery(name = "count", query = "select count(p) from Product p")
 })
 public class Product {
@@ -37,7 +39,6 @@ public class Product {
         this.description = description;
         this.category = category;
     }
-
 
 
     public Long getId() {
