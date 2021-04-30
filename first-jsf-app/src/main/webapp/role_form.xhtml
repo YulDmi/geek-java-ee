@@ -28,7 +28,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <h:link styleClass="nav-link" value="Category" outcome="/category"/>
+                    <h:link styleClass="nav-link" value="Role" outcome="/role"/>
                 </li>
             </ul>
         </div>
@@ -41,12 +41,12 @@
                     <div class="form-group">
                         <h:outputLabel value="Name"/>
                         <h:inputText styleClass="form-control" id="name"
-                                     value="#{categoryController.category.name}"
+                                     value="#{roleController.role.name}"
                                      placeholder="Enter name"/>
                     </div>
 
                     <h:commandButton value="Submit" styleClass="btn btn-primary"
-                                     action="#{categoryController.saveCategory()}"/>
+                                     action="#{roleController.saveRole()}"/>
                 </h:form>
             </div>
         </div>

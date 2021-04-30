@@ -44,18 +44,6 @@ public class ProductServiceImpl implements ProductService, ProductResource {
         return createProductRepr(productRepository.findById(id));
     }
 
-//    @Override
-//    public List<ProductRepr> findByName(String name) {
-//        List<ProductRepr> products = new ArrayList<>();
-//        for (Product product : productRepository.findAll()){
-//            if (product.getName().equals(name)){
-//                products.add(createProductRepr(product));
-//            }
-//        }
-//        return products;
-//    }
-
-
     @Override
     public List<ProductRepr> findAll() {
         return getListProductPepr(productRepository.findAll());
