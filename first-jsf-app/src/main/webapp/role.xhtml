@@ -15,37 +15,37 @@
 </h:head>
 
 <h:body>
-    <f:event listener="#{categoryController.preloadData}" type="preRenderView"/>
+    <f:event listener="#{roleController.preloadData}" type="preRenderView"/>
     <ui:include src="WEB-INF/fragment/header.xhtml">
-        <ui:param name="pageName" value="Category"/>
+        <ui:param name="pageName" value="Role"/>
     </ui:include>
 
     <div class="container">
         <div class="row py-2">
             <h:form id="categoryTableForm">
                 <div class="col-12">
-                    <h:commandButton value="Add Category" styleClass="btn btn-success"
-                                     action="#{categoryController.addCategory()}"/>
+                    <h:commandButton value="Add Role" styleClass="btn btn-success"
+                                     action="#{roleController.addRole()}"/>
                 </div>
 
                 <div class="col-12">
-                    <h:dataTable value="#{categoryController.findAll()}" var="category"
+                    <h:dataTable value="#{roleController.findAll()}" var="role"
                                  styleClass="table table-bordered my-2">
                         <h:column>
                             <f:facet name="header">Id</f:facet>
-                            #{category.id}
+                            #{role.id}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Name</f:facet>
-                            #{category.name}
+                            #{role.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Actions</f:facet>
 
                             <h:commandButton value="Edit" styleClass="mr-1"
-                                             action="#{categoryController.editCategory(category)}"/>
+                                             action="#{roleController.editRole(role)}"/>
                             <h:commandButton value="Delete" styleClass="mr-1"
-                                             action="#{categoryController.deleteCategory(category)}">
+                                             action="#{roleController.deleteRole(role)}">
                                 <f:ajax event="click" render="categoryTableForm"/>
                             </h:commandButton>
                         </h:column>

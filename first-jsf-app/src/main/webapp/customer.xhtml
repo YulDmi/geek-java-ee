@@ -64,9 +64,9 @@
                         <h:column>
                             <f:facet name="header">Actions</f:facet>
 
-                            <h:commandButton value="Edit" styleClass="btn btn-success"
+                            <h:commandButton value="Edit" styleClass="mr-1"
                                              action="#{customerController.editCustomer(customer)}"/>
-                            <h:commandButton value="Delete" styleClass="btn btn-danger"
+                            <h:commandButton value="Delete" styleClass="mr-1"
                                              action="#{customerController.deleteCustomer(customer)}">
                                 <f:ajax event="click" render="customerTableForm"/>
                             </h:commandButton>
